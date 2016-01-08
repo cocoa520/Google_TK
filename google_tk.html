@@ -1,0 +1,52 @@
+<html>
+<head>
+	<title>Google翻译TK参数测试</title>
+</head>
+<script type="text/javascript">
+function VL(a) {
+        var b = a.trim();
+        alert(TL(b));
+        //return TL(b);
+        
+        //测试1 //"http://translate.google.cn/translate_a/single?client=t&sl=en&tl=zh-CN&hl=zh-CN&dt=bd&dt=ex&dt=ld&dt=md&dt=qc&dt=rw&dt=rm&dt=ss&dt=t&dt=at&ie=UTF-8&oe=UTF-8&source=sel&tk=404545.2760&q=hello"
+        
+        //测试2
+        //"http://translate.google.cn/translate_a/single?client=t&sl=en&tl=zh-CN&hl=zh-CN&dt=bd&dt=ex&dt=ld&dt=md&dt=qc&dt=rw&dt=rm&dt=ss&dt=t&dt=at&ie=UTF-8&oe=UTF-8&source=sel&tk=281589.159100&q=happy new year!"
+        //返回的结果
+        //[[["新年快乐！","happy new year!",,,1],[,,"Xīnnián kuàilè!"]],[["感叹词",["恭贺新禧!","新年好!"],[["恭贺新禧!",["Happy New Year!"]],["新年好!",["Happy New Year!"]]],"Happy New Year!",9]],"en",,,[["happy new year!",32000,[["新年快乐！",0,true,false]],[[0,15]],"happy new year!",0,0]],0.61467338,,[["en"],,[0.61467338]],,,,,,[["Happy New Year!","happy","new","year","new year"]]]
+}
+
+function TL(a) {
+    var b = 403081;//403173 
+    var Vb = "+-a^+6";
+	var Ub = "+-3^+b+-f";
+	var dd = ".";
+    var d = [];
+    var e = 0;
+    for (e = 0, f = 0; f < a.length; f++) {
+        var g = a.charCodeAt(f);
+        128 > g ? d[e++] = g : (2048 > g ? d[e++] = g>>6 | 192 : (55296 == (g & 64512) && f + 1 < a.length && 56320 == (a.charCodeAt(f + 1) & 64512) ? (g = 65536 + ((g & 1023)<<10) + (a.charCodeAt(++f) & 1023), d[e++] = g>>18 | 240, d[e++] = g>>12 & 63 | 128) : d[e++] = g>>12 | 224, d[e++] = g>>6 & 63 | 128), d[e++] = g & 63 | 128)
+    }
+    a = b || 0;
+    for (e = 0; e < d.length; e++)
+        a += d[e], a = RL(a, Vb);
+    a = RL(a, Ub);
+    0 > a && (a = (a & 2147483647) + 2147483648);
+    a%=1E6;
+    return (a.toString() + dd + (a^b))
+};
+
+function RL(a, b) {
+	var t = "a";
+	var Tb = "+";
+    for (var c = 0; c < b.length - 2; c += 3) {
+        var d = b.charAt(c + 2), d = d >= t ? d.charCodeAt(0) - 87: Number(d), d = b.charAt(c + 1) == Tb ? a>>>d: a<<d;
+        a = b.charAt(c) == Tb ? a + d & 4294967295 : a^d
+    }
+    return a
+}
+
+</script>
+
+<input name="Query" type="button" value="测试" onclick="VL('happy new year!');"> 
+</html>
